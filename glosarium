@@ -56,7 +56,7 @@ class WebParser(object):
         """I parse the web site
         """
 
-        h = httplib2.Http('.cache')
+        h = httplib2.Http('/tmp/.cache')
         resp, content = h.request(self.url)
 
         if resp.get('status') != '200':
@@ -113,17 +113,18 @@ def main():
     if options.resume:
         resume = {}
 
+    regex = re.compile(
+        r'(href=\\?"\\?\b(https?|ftp|file|mailto):/?/?\S+"|src="\b\S+")'
+    )
+
     for i in range(len(lines)):
         for term in glosary:
 
             if term.lower() in lines[i].lower():
                 # skip matches on href urls or src
-                m = re.search(
-                    r'(href="\b(https?|ftp|file)://\S+"|src="\b\S+")',
-                    lines[i]
-                )
+                m = regex.search(lines[i])
                 if m is not None:
-                    if term in m.group():
+                    if term.lower() in m.group():
                         continue
 
                 if options.resume and term not in resume:
