@@ -114,7 +114,7 @@ def main():
         resume = {}
 
     regex = re.compile(
-        r'(href=\\?"\\?\b(https?|ftp|file|mailto):/?/?\S+"|src="\b\S+")'
+        r'(href=\\?"\\?\b(https?|ftp|file|mailto):/?/?\S+"|src=\\?"\b\S+")'
     )
 
     for i in range(len(lines)):
