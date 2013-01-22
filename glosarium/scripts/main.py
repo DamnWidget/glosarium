@@ -19,84 +19,47 @@
 """
 .. module:: glosarium
     :platform: POSIX, Windows
-    :synopsis: This module locates in a text file the given glosary terms
+    :synopsis: Command line tool for glosarium
 
 .. moduleauthor:: Oscar Campos <oscar.campos@member.fsf.org>
 """
 
 import os
-import re
 import sys
-import httplib2
 from optparse import OptionParser
 
-__version__ = '1.0'
-
-
-class WebParser(object):
-    """
-    This class is used to parse the Glosarium GNU web page and generates a
-    list of terms to use in our glosary
-
-    :param url: the URL to parse
-    :type url: str
-    """
-
-    def __init__(self, url=None):
-        if url is None:
-            self.url = (
-                'http://www.gnu.org/server/standards/translations/es/'
-                'recursos.html#glosario'
-            )
-        self.glosary = []
-
-        self._parse()
-
-    def _parse(self):
-        """I parse the web site
-        """
-
-        h = httplib2.Http('/tmp/.cache')
-        resp, content = h.request(self.url)
-
-        if resp.get('status') != '200':
-            print 'error: the server at {0} reply {1} exiting...'.format(
-                self.url,
-                resp.get('status')
-            )
-            sys.exit(1)
-
-        regex = re.compile(r'<strong>.*?</strong>')
-        self.glosary = [term[8:-9] for term in regex.findall(content)]
+from glosarium.po_parser import PoParser
+from glosarium import __version__ as version
+from glosarium.glosary_parser import WebParser, WebParserError
 
 
 def main():
     """Main application entry point
     """
 
-    parser = OptionParser(usage=(
+    opt_parser = OptionParser(usage=(
         'usage: %prog po_file <log_file>\nType %prog -h or --help to get help'
     ))
-    parser.add_option(
+    opt_parser.add_option(
         '-v', '--version', action='store_true', dest='version',
         help='show program\'s version number and exit'
     )
-    parser.add_option(
+    opt_parser.add_option(
         '-l', '--lines', action='store_true', dest='lines',
         help='also print lines when a term is found'
     )
-    parser.add_option(
+    opt_parser.add_option(
         '-r', '--resume', action='store_true', dest='resume',
         help='print a resume when done'
     )
-    (options, args) = parser.parse_args()
+    (options, args) = opt_parser.parse_args()
 
     if options.version:
-        sys.stdout.write('glosarium %s\n' % __version__)
+        sys.stdout.write('glosarium {0}\n'.format(version))
         sys.exit(0)
 
     if not len(args):
-        parser.error('You must provide the Po file that you want to check')
+        opt_parser.error('You must provide the Po file that you want to check')
 
     if len(args) > 1:
         dest = os.path.abspath(args[1])
@@ -104,44 +67,16 @@ def main():
         dest = None
 
     source = os.path.abspath(args[0])
-    glosary = WebParser().glosary
+    try:
+        glosary = WebParser().glosary
+    except WebParserError, error:
+        print error
+        sys.exit(1)
 
-    with open(source, 'r') as fd:
-        lines = fd.readlines()
-
-    result = []
-    if options.resume:
-        resume = {}
-
-    regex = re.compile(
-        r'(href=\\?"\\?\b(https?|ftp|file|mailto):/?/?\S+"|src=\\?"\b\S+")'
-    )
-
-    for i in range(len(lines)):
-        for term in glosary:
-
-            if term.lower() in lines[i].lower():
-                # skip matches on href urls or src
-                m = regex.search(lines[i])
-                if m is not None:
-                    if term.lower() in m.group():
-                        continue
-
-                if options.resume and term not in resume:
-                    resume[term] = []
-
-                result.append(
-                    'Term {term} found in line {line}'.format(
-                        term=term, line=i + 1
-                    )
-                )
-                if options.lines:
-                    result.append('|__\n   ' + lines[i])
-
-                if options.resume:
-                    resume[term].append(i + 1)
-
+    result, resume = PoParser(
+        glosary, source, options.resume, options.lines).parse()
     buffer = '\n'.join(result)
+
     if options.resume:
 
         buffer += '\n\n+{0}+\n'.format('-' * 77)
@@ -166,7 +101,6 @@ def main():
             print '\n\nFile {file} has been written to the drive\n'.format(
                 file=dest
             )
-
 
 if __name__ == '__main__':
     main()
