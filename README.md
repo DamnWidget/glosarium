@@ -122,8 +122,8 @@ The following prints the context where the term occurs:
 Common Troubleshooting
 ----------------------
 
-Q: When I use the `glosarium` command I get `command not found` error. What can I do?
-R: Install the coreutils from the GNU project
+* Q: When I use the `glosarium` command I get `command not found` error. What can I do?
+* R: Install the coreutils from the GNU project
 
 
 License:
