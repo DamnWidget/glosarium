@@ -49,35 +49,35 @@ they occur in the PO file:
 
     $ python ./glosarium Desktop/tests/why-copyleft.es.po
 
-    Term Copyleft found in line 1<br />
-    Term Free software found in line 2<br />
-    Term Copyleft found in line 8<br />
-    Term Copyleft found in line 20<br />
-    Term Free software found in line 20<br />
-    Term Free Software Foundation (FSF) found in line 20<br />
-    Term GNU Project found in line 20<br />
-    Term Copyleft found in line 21<br />
-    Term Copyleft found in line 24<br />
-    Term Copyleft found in line 25<br />
-    Term Copyleft found in line 32<br />
-    Term Copyleft license found in line 32<br />
-    Term Free software found in line 32<br />
-    Term Free software license found in line 32<br />
-    Term GNU Project found in line 32<br />
-    Term Non-copyleft license found in line 32<br />
-    Term Copyleft found in line 33<br />
-    Term Free software found in line 40<br />
-    Term Free software license found in line 40<br />
-    Term Copyleft found in line 44<br />
-    Term Copyleft license found in line 44<br />
-    Term Free software found in line 44<br />
-    Term Non-copyleft license found in line 44<br />
-    Term Copyleft found in line 45<br />
-    Term Webmaster found in line 57<br />
-    Term Webmaster found in line 58<br />
-    Term See found in line 62<br />
-    Term Free software found in line 66<br />
-    Term Free software found in line 67<br />
+    Term Copyleft found in line 1
+    Term Free software found in line 2
+    Term Copyleft found in line 8
+    Term Copyleft found in line 20
+    Term Free software found in line 20
+    Term Free Software Foundation (FSF) found in line 20
+    Term GNU Project found in line 20
+    Term Copyleft found in line 21
+    Term Copyleft found in line 24
+    Term Copyleft found in line 25
+    Term Copyleft found in line 32
+    Term Copyleft license found in line 32
+    Term Free software found in line 32
+    Term Free software license found in line 32
+    Term GNU Project found in line 32
+    Term Non-copyleft license found in line 32
+    Term Copyleft found in line 33
+    Term Free software found in line 40
+    Term Free software license found in line 40
+    Term Copyleft found in line 44
+    Term Copyleft license found in line 44
+    Term Free software found in line 44
+    Term Non-copyleft license found in line 44
+    Term Copyleft found in line 45
+    Term Webmaster found in line 57
+    Term Webmaster found in line 58
+    Term See found in line 62
+    Term Free software found in line 66
+    Term Free software found in line 67
 
 The following prints same as above, plus statistics (resume): 
 
