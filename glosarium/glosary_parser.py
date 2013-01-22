@@ -65,7 +65,12 @@ class WebParser(object):
         """
 
         h = httplib2.Http('/tmp/.cache')
-        resp, content = h.request(self.url)
+        try:
+            resp, content = h.request(self.url)
+        except httplib2.ServerNotFoundError:
+            raise WebParserError(
+                'GNU site is unavailable, check your internet connection'
+            )
 
         if resp.get('status') != '200':
             raise WebParserError('error: the server at {0} reply {1}'.format(
