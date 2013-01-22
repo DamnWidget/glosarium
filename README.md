@@ -1,7 +1,7 @@
 glosarium
 =========
 
-This is a cross-platform application used by the Spanish Transalation Team of 
+This is a cross-platform application used by the Spanish Transalation Team of
 the GNU Project. It was written by Oscar Campos <oscar.campos@member.fsf.org>
 and released under the GNU General Public License, version 3 or later.
 
@@ -11,31 +11,37 @@ GNU Operating System.
 
 Dependencies
 ------------
-  
+
   * Python >= 2.6
   * httplib2 >= 0.6
   * coreutils >= 8.5
 
 
+Instalation
+-----------
+
+Donwload or clone the repository and install like any other Python package with:
+
+    $ sudo python setup.py install
+
+
 Usage
 -----
 
-Place a copy of the file "glosarium" in your /home directory.
-
-Make sure you are connected to the internet (glosarium checks 
+Make sure you are connected to the internet (glosarium checks
 http://www.gnu.org/server/standards/translations/es/recursos.html#glosario
 for coincidences.)
 
 In the command line, type:
 
-    $ python ./glosarium path-to-your-po-file/name_of_article.es.po  log_file
+    $ glosarium path-to-your-po-file/name_of_article.es.po  log_file
 
 `log_file` is the file where the results will be saved. If you don't
 specify it, the results will be printed on the default output, and not saved in the file system.
 
 Options
 -------
-  
+
     -h, --help     show this help message and exit
     -v, --version  show program's version number and exit
     -l, --lines    also print lines when a term is found
@@ -47,7 +53,7 @@ Examples
 The following prints a list of terms found and the number of the line where
 they occur in the PO file:
 
-    $ python ./glosarium Desktop/tests/why-copyleft.es.po
+    $ glosarium Desktop/tests/why-copyleft.es.po
 
     Term Copyleft found in line 1
     Term Free software found in line 2
@@ -79,9 +85,9 @@ they occur in the PO file:
     Term Free software found in line 66
     Term Free software found in line 67
 
-The following prints same as above, plus statistics (resume): 
+The following prints same as above, plus statistics (resume):
 
-    $ python ./glosarium -r Desktop/tests/why-copyleft.es.po
+    $ glosarium -r Desktop/tests/why-copyleft.es.po
 
     +-----------------------------------------------------------------------------+
     | Term                          | Appears in lines                            |
@@ -101,22 +107,25 @@ The following prints same as above, plus statistics (resume):
 
 The following prints the context where the term occurs:
 
-    $ python ./glosarium -l Desktop/tests/why-copyleft.es.po
+    $ glosarium -l Desktop/tests/why-copyleft.es.po
 
     Term Copyleft found in line 32<br />
     |__<br />
-      msgid "In the GNU Project we usually recommend people use 
-      <a href=\"/copyleft/copyleft.html\">copyleft</a> licenses like GNU GPL, rather 
-      than permissive non-copyleft free software licenses.  We don't argue harshly 
-      against the non-copyleft licenses&mdash;in fact, we occasionally recommend 
-      them in special circumstances&mdash;but the advocates of those licenses show a 
-      pattern of arguing harshly against the 
+      msgid "In the GNU Project we usually recommend people use
+      <a href=\"/copyleft/copyleft.html\">copyleft</a> licenses like GNU GPL, rather
+      than permissive non-copyleft free software licenses.  We don't argue harshly
+      against the non-copyleft licenses&mdash;in fact, we occasionally recommend
+      them in special circumstances&mdash;but the advocates of those licenses show a
+      pattern of arguing harshly against the
       <acronym title=\"General Public License\">GPL</acronym>."
 
-You can ofcourse copy glosarium script to your `$PATH` so you can use it as:
+Common Troubleshooting
+----------------------
 
-    $ glosarium imput_file output_file
-    
+Q: When I use the `glosarium` command I get `command not found` error. What can I do?
+R: Install the coreutils from the GNU project
+
+
 License:
 --------
     This program is free software; you can redistribute it and/or modify
