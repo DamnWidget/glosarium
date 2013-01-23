@@ -15,7 +15,9 @@ Dependencies
   * Python >= 2.6
   * httplib2 >= 0.6
   * coreutils >= 8.5
-  * python-setuptools >= 0.6 (just for be able to run python setup.py install)
+  * setuptools >= 0.6 (just for be able to run python setup.py install)
+
+**NOTE**: In debian and derivates (Ubuntu, Mint, Trisquel, etc) setuptools is named as `python-setuptools`
 
 
 Instalation
