@@ -21,7 +21,7 @@ Distutils installer for Glosarium.
 
 import sys
 if not hasattr(sys, "version_info") or sys.version_info < (2, 6):
-    raise RuntimeError("Mamba requires Python 2.6 or later.")
+    raise RuntimeError("Glosarium requires Python 2.6 or later.")
 
 from setuptools import setup, find_packages
 
