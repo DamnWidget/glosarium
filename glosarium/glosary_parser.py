@@ -67,6 +67,10 @@ class WebParser(object):
         h = httplib2.Http('/tmp/.cache')
         try:
             resp, content = h.request(self.url)
+            content = '\n'.join(content.split('\n')[
+                content.split('\n').index('<!-- Begin Glosario -->') + 1:
+                content.split('\n').index('<!-- End Glosario -->')
+            ])
         except httplib2.ServerNotFoundError:
             raise WebParserError(
                 'GNU site is unavailable, check your internet connection'
@@ -77,8 +81,10 @@ class WebParser(object):
                 self.url, resp.get('status')
             ))
 
-        regex = re.compile(r'<strong>.*?</strong>')
-        self.__glosary = [term[8:-9] for term in regex.findall(content)]
+        regex = re.compile(r'(?<=<strong>)(?P<term>.*?)(?=</strong>)')
+        regex2 = re.compile(r'(?<=</strong>\W)(?P<term>.*?[^\r\n]+)')
+        self.__glosary = regex.findall(content)
+        self.__translations = regex2.findall(content)
         self._parsed = True
 
 
