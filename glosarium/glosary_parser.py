@@ -48,7 +48,7 @@ class WebParser(object):
                 'http://www.gnu.org/server/standards/translations/es/'
                 'recursos.html#glosario'
             )
-        self.__glosary = []
+        self.__glosary = {}
         self._parsed = False
 
     @property
@@ -82,9 +82,14 @@ class WebParser(object):
             ))
 
         regex = re.compile(r'(?<=<strong>)(?P<term>.*?)(?=</strong>)')
-        regex2 = re.compile(r'(?<=</strong>\W)(?P<term>.*?[^\r\n]+)')
-        self.__glosary = regex.findall(content)
-        self.__translations = regex2.findall(content)
+        regex2 = re.compile(
+            r'((?<=</strong>\:)[\s\S]*?(?=<strong>|<br />|</p>))')
+        terms = [term.strip('"') for term in regex.findall(content)]
+        translations = [
+            re.sub(r'<[^<]+?>', '', term).strip()
+            for term in regex2.findall(content)
+        ]
+        self.__glosary = dict(zip(terms, translations))
         self._parsed = True
 
 

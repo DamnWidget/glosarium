@@ -37,4 +37,4 @@ class GlosariumTest(unittest.TestCase):
         pass
 
     def test_version(self):
-        self.assertEqual(version, '1.0')
+        self.assertEqual(version, '1.1')

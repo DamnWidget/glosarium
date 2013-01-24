@@ -42,8 +42,8 @@ class PoParser(object):
     :type file: str
     """
 
-    def __init__(self, terms, pofile, resume=False, online=False):
-        self.terms = terms
+    def __init__(self, glosary, pofile, resume=False, online=False):
+        self.glosary = glosary
         self.pofile = pofile
         self.resume = resume
         self.online = online
@@ -51,9 +51,10 @@ class PoParser(object):
             r'(href=\\?"\\?\b(https?|ftp|file'
             '|mailto):/?/?\S+"|src=\\?"\b\S+"|^#.*)'
         )
+        self.match = r'(\b{0}\b)'
 
     def parse(self):
-        """I parse the po file looking for terms
+        """I parse the po file looking for glosary terms
         """
 
         lines = self._load_file()
@@ -62,9 +63,8 @@ class PoParser(object):
         resume = {}
 
         for i in range(len(lines)):
-            for term in self.terms:
-
-                if term.lower() in lines[i].lower():
+            for term in self.glosary.keys():
+                if re.search(self.match.format(term), lines[i], re.IGNORECASE):
                     # skip matches on href urls or src properties
                     match = self.skip.search(lines[i])
                     if match is not None:
@@ -75,9 +75,12 @@ class PoParser(object):
                         resume[term] = []
                         resume[term].append(i + 1)
 
-                    result.append('Term {term} found in line {line}'.format(
-                        term=term, line=i + 1
-                    ))
+                    result.append(
+                        'Term {term} found in line {line}\n  possible '
+                        'translations: {trans}\n'.format(
+                            term=term, line=i + 1, trans=self.glosary[term]
+                        )
+                    )
                     if self.online:
                         result.append('|__\n    ' + lines[i])
 

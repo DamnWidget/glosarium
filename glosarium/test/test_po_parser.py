@@ -27,6 +27,7 @@ import unittest
 from os.path import dirname
 
 from glosarium.po_parser import PoParser
+from glosarium.glosary_parser import WebParser
 
 
 class PoParserTest(unittest.TestCase):
@@ -42,12 +43,12 @@ class PoParserTest(unittest.TestCase):
         self.assertNotEqual(len(lines), len(parser._load_file()))
 
     def test_result_has_no_href_src_or_hash(self):
-        terms = ('webmaster')
-        parser = PoParser(terms, self.file)
+        glosary = WebParser().glosary
+        parser = PoParser(glosary, self.file)
         result, resume = parser.parse()
 
         for line in result:
-            if terms[0] in line.lower():
+            if 'webmaster' in line.lower():
                 self.assertFalse('href' in line.lower())
                 self.assertFalse('src' in line.lower())
                 self.assertFalse('#' in line.lower())
