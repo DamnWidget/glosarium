@@ -23,7 +23,11 @@ Dependencies
 Instalation
 -----------
 
-Donwload or clone the repository and install like any other Python package with:
+Install with pip:
+
+    $ sudo pip install glosarium
+
+You can also donwload or clone the repository and install like any other Python package with:
 
     $ sudo python setup.py install
 
